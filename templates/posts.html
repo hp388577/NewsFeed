@@ -38,7 +38,7 @@
         <p><a href="{% url 'feed-edit' post.post_id %}">Edit</a>
            <a href="{% url 'feed-delete' post.post_id %}">Delete</a>
         </p>
-    {% endif %}
+   
     <hr>
     <form method="post" action="{% url 'add-comment' post.post_id %}">
     {% csrf_token %}
@@ -46,6 +46,7 @@
     <textarea name="comment" id="comment" rows="3"></textarea>
     <button type="submit">Comment</button>
 </form>
+ {% endif %}
     <p>Comments:</p>
 
 <div class="comment-scroll">

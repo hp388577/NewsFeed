@@ -1,0 +1,21 @@
+body{
+    background-color: rgb(254, 100, 241);
+}
+.like-button {
+    background-color: rgb(16, 231, 242);
+    color: rgb(23, 22, 22);
+}
+.like-button.liked {
+    background-color: rgb(10, 12, 138);
+    color: white;
+}
+.scroll-container {
+    height: 100vh;
+    max-height: 100vh; 
+    overflow-y: auto;
+}
+
+.comment-scroll {
+    max-height: 200px; 
+    overflow-y: auto;
+}

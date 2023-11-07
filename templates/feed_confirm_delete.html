@@ -1,0 +1,23 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+<form method="POST">
+  {% csrf_token %}
+  <center>
+
+<div class="card col-md-6 col-sm-12" style="background-color: rgba(255, 255, 255, 0.5);">
+  <h2 class="card-header">Delete Feed</h2>
+  <div class="card-body ">
+    <h5 class="card-title">{{post.title}}</h5>
+    
+    <p class="card-text">Are you sure that you want to delete this feed ?</p>
+    <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
+    <h4><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'feeds' %}">Cancel</a><h4>
+   
+  </div>
+</div>
+</center>
+</form>
+
+{% endblock content %}

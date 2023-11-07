@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<form method="POST">
+	{% csrf_token %}
+	<center>
+<div class="card col-md-6 col-sm-12" style="background-color: rgba(255, 255, 255, 0.5);">
+ <h1 class="h3 mb-3 fw-normal">Log in</h1>
+  <div class="card-body ">
+    
+{% for field in form %}
+    <div class="form-floating">
+      {{ field }}
+      <label for="floatingInput">{{ field.label_tag }}</label>
+	  <br><br>
+    </div>
+    {% endfor %}
+<br>
+    
+    <button class="btn btn-primary w-100 py-2"  type="submit" value="Login" >Log in</button>
+    <p>Not a member? <a href="{% url 'register' %}">Register</a></p>
+  </form>
+</center>
+  
+{% endblock content%}

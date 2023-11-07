@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{%block content%}
+
+
+<div class="container-fluid" >
+  <div class="row" >
+    <div class="col-sm-12 col-md-4 ">
+      <div class="card "  style="background-color: rgba(255, 255, 255, 0.5);">
+        <div class="card-body  " >
+          {% if request.user.is_authenticated %}
+          <h3 class="card-title">{{request.user.username}}</h3>
+          <p class="card-text">{{request.user.email}}</p>
+          {% else%}
+          <h3 class="card-title">Welcome!</h3>
+          <p class="card-text">This is news Feed site<br>Regiter now And Write your Own Feed and show to others</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-4 ">
+      <div class="card" style="background-color: rgba(255, 255, 255, 0.5);">
+        <div class="card-body scroll-container">
+          {% for post in posts %}
+            <h3 class="card-title">{{ post.title }}</h3>
+            <small>Published on {{ post.published_at }} by {%if request.user == post.author %} YOU{%else%}{{post.author}}{%endif%}</small>
+            <p class="card-text">{{ post.content }}</p>
+            <p>Likes: {{ post.likes.count }}
+            {% if request.user.is_authenticated %}
+                <form method="post" action="{% url 'like-post' post.post_id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="like-button {% if request.user in post.likes.all %}liked{% endif %}">
+                      {% if request.user in post.likes.all %}Liked{% else %}Like{% endif %}
+                  </button>
+              </form>
+             {% endif %}</p>
+    {% if request.user.is_authenticated and request.user == post.author %}	
+        <p><a href="{% url 'feed-edit' post.post_id %}">Edit</a>
+           <a href="{% url 'feed-delete' post.post_id %}">Delete</a>
+        </p>
+    {% endif %}
+    <hr>
+    <form method="post" action="{% url 'add-comment' post.post_id %}">
+    {% csrf_token %}
+    <label for="comment">Add a Comment:</label>
+    <textarea name="comment" id="comment" rows="3"></textarea>
+    <button type="submit">Comment</button>
+</form>
+    <p>Comments:</p>
+
+<div class="comment-scroll">
+    
+<ul>
+    <ul>
+        {% for comment in comments %}
+            {% if comment.post == post %}
+                <li>{%if request.user == comment.user %} YOU{%else%}{{ comment.user }}{%endif%} said: {{ comment.content }}</li>
+                <small>On {{comment.created_at|date:"F j, Y, P"}}</small>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</ul></div>
+<hr><hr>
+{% endfor %}
+        </div>
+      </div>
+    </div>
+    {% if request.user.is_authenticated %}
+    <div class="col-sm-12 col-md-4  ">
+      <div class="card"  style="background-color: rgba(255, 255, 255, 0.5);">
+        <div class="card-body">
+          <h3 class="card-title">Your Total Feed count is: {{count}}</h3>
+          <p class="card-text">Your Last Feed Posted On {{ lastfeed|date:"d-m-Y h:i:s A" }}
+</p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+
+
+{%endblock%}
+  

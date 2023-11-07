@@ -7,7 +7,7 @@ from .forms import LoginForm,RegisterForm
 def sign_in(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            return redirect('feeds')
+            return redirect('/feed/')
     
         form = LoginForm()
         return render(request,'login.html', {'form': form})
@@ -22,7 +22,7 @@ def sign_in(request):
             if user:
                 login(request, user)
                 messages.success(request,f'Hi {username.title()}, welcome back!')
-                return redirect('feeds')
+                return redirect('/feed/')
         
         # form is not valid or user is not authenticated
         messages.error(request,f'Invalid username or password')
@@ -46,6 +46,6 @@ def sign_up(request):
             user.save()
             messages.success(request, 'You registered successfully.')
             login(request, user)
-            return redirect('feeds')
+            return redirect('/feed/')
         else:
             return render(request, 'register.html', {'form': form})   

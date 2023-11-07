@@ -60,11 +60,10 @@ def delete_feed(request, id):
     queryset=Post.objects.filter(author=request.user)
     post = get_object_or_404(queryset, pk=id)
     context = {'post': post}    
-    
     if request.method == 'GET':
         return render(request, 'feed_confirm_delete.html',context)
     elif request.method == 'POST':
-        post.delete(request)
+        post.delete()
         messages.success(request,  'The post has been deleted successfully.')
         return redirect('/feed/')
 
@@ -91,12 +90,15 @@ def add_comment(request, post_id):
     return render(request,'posts.html',context)
 
 def data(request):
+    lastfeed=None
     if request.user.is_authenticated:
         myposts = Post.objects.filter(author=request.user)
         count=myposts.count()
-        lastfeed=myposts[0].published_at
+        if myposts:
+            lastfeed=myposts[0].published_at
     else:
         count=lastfeed=0
+    
     posts = Post.objects.all()
     comments=Comment.objects.all()
     context = {
